@@ -1,0 +1,8 @@
+vpc_cidr = "10.2.0.0/16"
+priv_sn_cidr = "10.2.1.0/24"
+pub_sn_cidr = "10.2.2.0/24"
+ami_id = "ami-0d5eff06f840b45e9"
+instance_type = "t2.micro"
+pub_az = "us-east-1a"
+priv_az = "us-east-1b"
+keypair = "test-key-nova-1"

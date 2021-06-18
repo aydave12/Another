@@ -1,0 +1,57 @@
+{
+"AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "",
+    "Metadata": {
+
+    },
+    "Parameters": {
+        
+        "paramName": {
+            "Description": "-",
+            "Type": "[String|Number|CommaDelimitedList]",
+            "Default": "-"
+        }
+        
+    
+    },
+    "Mappings": {
+
+    },
+    "Conditions": {
+
+    },
+    "Resources": {
+    "AyoVPC": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.1.0.0/16",
+    
+        "Tags":[
+        { "Key": "Name", "Value":  "AyoVPC1" }
+        ]
+      }
+    },
+    
+    "IGWAyo": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": ["-"]
+      }
+    },
+    "AttachGateway": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": 
+        { "Ref": "AyoVPC" }
+        
+        "InternetGatewayId": { "Ref": "IGWAyo" }
+      }
+    }
+    
+    
+
+    },
+    "Outputs": {
+
+    }
+}

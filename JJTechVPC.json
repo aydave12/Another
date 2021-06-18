@@ -1,0 +1,55 @@
+{
+"AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "",
+    "Metadata": {
+
+    },
+    "Parameters": {
+        
+        "VPCCidr": {
+            "Description": "Provide CIDR Block fro JJTechVPC",
+            "Type": "String"
+        }
+        
+    
+    },
+    "Mappings": {
+
+    },
+    "Conditions": {
+
+    },
+    "Resources": {
+        
+        "JJTechVPC": {
+          "Type": "AWS::EC2::VPC",
+          "Properties": {
+            "CidrBlock": 
+            { "Ref": "VPCCidr" }
+            ,
+            "Tags": [
+            
+            { "Key": "Name", "Value":  "JJTechVPC" }
+            ]
+          }
+        },
+        
+        "JJTechPrivSN": {
+          "Type": "AWS::EC2::Subnet",
+          "Properties": {
+            "AvailabilityZone": "-",
+            "VpcId": 
+            { "Ref": "JJTechVPC" }
+             ,
+            "CidrBlock": "-",
+            "Tags": ["-"]
+          }
+        }
+        
+        
+
+    },
+    "Outputs": {
+
+    }
+}
