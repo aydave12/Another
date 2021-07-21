@@ -1,0 +1,72 @@
+..................For Dynamic Inventory........................................................................................
+
+-In Autoscaling, a dynamic inventory is used with the help of boto 3 rather than manually entering the IP addresses.
+-In an environment with 50 nodes, and doing configuration manually there is a watse of time hence there is the need to automate
+-When a new node is stood up by autoscaling to the pool, a soultion adds it to the host file (Dynamic invenorty)
+
+#######################Demo:##########
+Spin-up 3 ubuntu instances in Oregon region with the following AMI: ami-03d5c68bab01f3496
+Tag your target instances as follows:
+Ubuntu-Node1
+Ubuntu-Node2
+Master-Node
+Any instance type is fine.Login to the master node 
+
+
+1. Update the EC2 instance packages
+sudo apt update -y
+2. Install Ansible
+sudo apt install -y ansible
+3. Install Python
+sudo apt install python-is-python3
+4. Install PIP
+sudo apt-get install python3-pip -y
+5. Install Boto
+sudo pip3 install boto
+6. Install Boto3
+sudo pip3 install boto3
+7. Install AWSCLI
+sudo pip3 install awscli
+8.Edit the config file for ansible and uncomment # the following
+sudo vi /etc/ansible/ansible.cfg
+
+# finds first
+
+[defaults]
+
+# some basic default values...
+
+inventory      = /etc/ansible/hosts
+sudo_user      = root
+
+# uncomment this to disable SSH key host checking
+host_key_checking = False
+
+:x
+9. Create a key file.pem (copy your pem key from your local and paste it here)
+sudo vi oregon.pem
+####in windows cd into your downloads, do; notepad <Keyname> and copy the content.
+10. Change its (key.pem) permission on the ubuntu node
+sudo chmod 400 oregon.pem
+11. Eleminate the use of keys by;
+ssh-agent bash
+ssh-add /home/ubuntu/oregon.pem
+12. Download the below on your terminal
+wget https://code-sharing-bucket.s3-us-west-2.amazonaws.com/jespo/ansible/ec2.py (boto3 code that ansible puts together the intelligence to discover ec2 nodes in your account)
+wget https://code-sharing-bucket.s3-us-west-2.amazonaws.com/jespo/ansible/ec2.ini (boto3 filters are created )
+13. Add excutable permission on the 2 scripts
+chmod +x ec2.ini ec2.py (executable bit = 755)
+14.Give permissions to this automation (Export the keys)
+export AWS_ACCESS_KEY_ID='AKIAXOHT2YKO2AJ7MN52'
+export AWS_SECRET_ACCESS_KEY='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'
+15. Tagging
+export EC2_INI_PATH=/home/ubuntu/ec2.ini
+export ANSIBLE_HOSTS=/home/ubuntu/ec2.py
+export EC2_INSTANCE_FILTERS='tag:Name=Ubuntu-Node*'
+16. Execute this file
+./ec2.py
+17. Run this ad-hoc commands
+ansible -i ec2.py ec2 -m ping
+ansible -i ec2.py ec2 -m shell -a uptime
+ansible -i ec2.py ec2 -m file -a "path=/tmp/testfile state=touch mode=0755"
+ansible -i ec2.py ec2 -b -m user -a "name=user1 state=present"ansible -i ec2.py ec2 -m command -a "fdisk -l" –becomeansible -i ec2.py ec2 -b -m apt -a "name=php state=present"

@@ -1,0 +1,79 @@
+{
+"AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "",
+    "Metadata": {
+
+    },
+    "Parameters": {
+        
+        "VPCCIDR": {
+            "Description": "Provide CIDR for VPC",
+            "Type": "String"
+        },
+        
+        "PrivSNACIDR": {
+            "Description": "Provide CIDR for Private SubnetA",
+            "Type": "String"
+        },
+        
+        "PrivSNAAZ": {
+            "Description": "-",
+            "Type": "String"
+        },
+        "PrivSNBCIDR": {
+            "Description": "Provide CIDR for Private SubnetA",
+            "Type": "String"
+        },
+        
+        "PrivSNBAZ": {
+            "Description": "-",
+            "Type": "String"
+        }
+        
+        
+    
+    },
+    "Mappings": {
+
+    },
+    "Conditions": {
+
+    },
+    "Resources": {
+        
+        "MainVPC": {
+          "Type": "AWS::EC2::VPC",
+          "Properties": {
+            "CidrBlock": "ref VPCCIDR",
+            "Tags": [
+            
+            { "Key": "Name", "Value":  "Main VPC" }
+            ]
+          }
+        },
+        
+        "PrivSNA": {
+          "Type": "AWS::EC2::Subnet",
+          "Properties": {
+            "AvailabilityZone": 
+            { "Ref": "PrivSNAAZ" }
+            ,
+            "VpcId": 
+            { "Ref": "MainVPC" }
+            ,
+            "CidrBlock": 
+            { "Ref": "PrivSNACIDR" }
+            ,
+            "Tags": [
+            { "Key": "Name", "Value":  "Private Subnet A" }
+            ]
+          }
+        }
+        
+        
+
+    },
+    "Outputs": {
+
+    }
+}
